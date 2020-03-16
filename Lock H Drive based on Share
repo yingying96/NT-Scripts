@@ -1,0 +1,24 @@
+echo off
+Set DirPath=D:\Onedrive-FolderLock
+Set Log=%DirPath%\Logs\LockHDrive.log
+
+date /t >> %Log%
+time /t >> %Log%
+set COUNTER=0
+
+for /f %%I in (%DIRPATH%\Users.txt) do call:CreateProfile %%I
+goto :EOF
+
+:CreateProfile
+set /a COUNTER-%COUNTER% + 1
+echo ####### >> %Log%
+echo User : %1 >> %Log%
+REM D:\Onedrive-FolderLock\rmtshare \\sinfiler11\%1$=C:\vol\VOLSATA\Users\%1$ /Grant "GICNT\%1" :R >> %Log%
+D:\Onedrive-FolderLock\rmtshare \\drcfiler11\%1$=C:\vol\VOLSATA\Users\%1 /Grant "GICNT\%1":R >> %Log%
+D:\Onedrive-FolderLock\rmtshare \\sinfiler11\%1$ >> %Log%
+D:\Onedrive-FolderLock\rmtshare \\drcfiler11\%1$ >> %Log%
+Echo ====
+
+:EOF
+echo ################ >> %Log%
+echo End of script  >> %Log%
