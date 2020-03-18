@@ -1,38 +1,14 @@
-#Get-ADGroupMember "pisolatedswift" | Select name,sAMAccountName | Export-Csv -NoTypeInformation C:\Users\yaoying3\Desktop\swiftusers.csv
-
 $SwiftUser=Get-ADGroupMember "pisolatedswift" | Select sAMAccountName
-
-
-Write-Output $SwiftUser
-
-
-$Data = Import-Csv -Path "C:\Users\yaoying3\Desktop\swiftusers.csv" 
-$Data.GetType().FullName
-
-foreach ($row in $Data)
+ 
+foreach ($row in $SwiftUser)
 {
     $NTID = $row.sAMAccountName
     $NewPath = Join-Path C:\Users\yaoying3\Desktop\Swift $NTID
     New-Item -Path $NewPath -ItemType Directory 
-
-    $acl = Get-Acl $NewPath
-    $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($NTID,"Write",'ContainerInherit, ObjectInherit',"None","Allow") 
-    $acl.AddAccessRule($AccessRule)
-    $acl | Set-Acl $NewPath
-
-    $acl = Get-Acl $NewPath
-    $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($NTID,"Read",'ContainerInherit, ObjectInherit',"None","Allow") 
-    $acl.AddAccessRule($AccessRule)
-    $acl | Set-Acl $NewPath
-
-    $acl = Get-Acl $NewPath
-    $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($NTID,"ReadAndExecute",'ContainerInherit, ObjectInherit',"None","Allow") 
-    $acl.AddAccessRule($AccessRule)
-    $acl | Set-Acl $NewPath
-
+ 
     $acl = Get-Acl $NewPath
     $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($NTID,"Modify",'ContainerInherit, ObjectInherit',"None","Allow") 
     $acl.AddAccessRule($AccessRule)
     $acl | Set-Acl $NewPath
-
+ 
 }
