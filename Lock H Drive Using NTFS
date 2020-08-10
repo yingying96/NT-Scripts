@@ -1,6 +1,8 @@
 $Data = Import-Csv -Path "C:\Users\yaoying3\Desktop\Paths.csv" 
 $Data.GetType().FullName
 
+#Remember to use the powershell logging functionality for this.
+
 foreach ($row in $Data)
 {
     $NTID = $row.NTID
